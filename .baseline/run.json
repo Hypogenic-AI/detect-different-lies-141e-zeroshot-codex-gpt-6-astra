@@ -1,0 +1,11 @@
+{
+  "method": "zeroshot-codex",
+  "provider": "codex",
+  "model": "gpt-6-astra",
+  "command": "codex exec --yolo --model gpt-6-astra --json",
+  "timeout_seconds": null,
+  "workspace": "detect-different-lies-141e-zeroshot-codex-gpt-6-astra",
+  "github_url": "https://github.com/Hypogenic-AI/detect-different-lies-141e-zeroshot-codex-gpt-6-astra",
+  "started_at": "2026-10-02T20:56:20Z",
+  "status": "running"
+}
