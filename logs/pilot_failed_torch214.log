@@ -1,0 +1,102 @@
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]Loading checkpoint shards: 100%|██████████| 4/4 [00:00<00:00, 78.67it/s]
+You're using a Qwen2TokenizerFast tokenizer. Please note that with a fast tokenizer, using the `__call__` method is faster than using a method to encode the text followed by a call to the `pad` method to get a padded encoding.
+Traceback (most recent call last):
+  File "/workspaces/detect-different-lies-141e-zeroshot-codex-gpt-6-astra/src/run_model.py", line 77, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/workspaces/detect-different-lies-141e-zeroshot-codex-gpt-6-astra/src/run_model.py", line 57, in main
+    out=model(**inp,position_ids=pos,use_cache=features,output_hidden_states=features,logits_to_keep=1)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspaces/detect-different-lies-141e-zeroshot-codex-gpt-6-astra/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1783, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspaces/detect-different-lies-141e-zeroshot-codex-gpt-6-astra/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1794, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspaces/detect-different-lies-141e-zeroshot-codex-gpt-6-astra/.venv/lib/python3.12/site-packages/transformers/utils/generic.py", line 918, in wrapper
+    output = func(self, *args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspaces/detect-different-lies-141e-zeroshot-codex-gpt-6-astra/.venv/lib/python3.12/site-packages/transformers/models/qwen2/modeling_qwen2.py", line 449, in forward
+    outputs: BaseModelOutputWithPast = self.model(
+                                       ^^^^^^^^^^^
+  File "/workspaces/detect-different-lies-141e-zeroshot-codex-gpt-6-astra/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1783, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspaces/detect-different-lies-141e-zeroshot-codex-gpt-6-astra/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1794, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspaces/detect-different-lies-141e-zeroshot-codex-gpt-6-astra/.venv/lib/python3.12/site-packages/transformers/utils/generic.py", line 1064, in wrapper
+    outputs = func(self, *args, **kwargs)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspaces/detect-different-lies-141e-zeroshot-codex-gpt-6-astra/.venv/lib/python3.12/site-packages/transformers/models/qwen2/modeling_qwen2.py", line 381, in forward
+    position_embeddings = self.rotary_emb(hidden_states, position_ids)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspaces/detect-different-lies-141e-zeroshot-codex-gpt-6-astra/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1783, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspaces/detect-different-lies-141e-zeroshot-codex-gpt-6-astra/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1794, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspaces/detect-different-lies-141e-zeroshot-codex-gpt-6-astra/.venv/lib/python3.12/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/workspaces/detect-different-lies-141e-zeroshot-codex-gpt-6-astra/.venv/lib/python3.12/site-packages/transformers/modeling_rope_utils.py", line 87, in wrapper
+    return rope_forward(self, x, position_ids)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspaces/detect-different-lies-141e-zeroshot-codex-gpt-6-astra/.venv/lib/python3.12/site-packages/transformers/models/qwen2/modeling_qwen2.py", line 301, in forward
+    freqs = (inv_freq_expanded.float() @ position_ids_expanded.float()).transpose(1, 2)
+             ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  File "/workspaces/detect-different-lies-141e-zeroshot-codex-gpt-6-astra/.venv/lib/python3.12/site-packages/torch/_native/registry.py", line 956, in eager_router
+    result = _dispatch(args, kwargs, swallow_cond_exceptions=False)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspaces/detect-different-lies-141e-zeroshot-codex-gpt-6-astra/.venv/lib/python3.12/site-packages/torch/_native/registry.py", line 935, in _dispatch
+    return getattr(torch.ops._native, impl_name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspaces/detect-different-lies-141e-zeroshot-codex-gpt-6-astra/.venv/lib/python3.12/site-packages/torch/_ops.py", line 1350, in __call__
+    return self._op(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspaces/detect-different-lies-141e-zeroshot-codex-gpt-6-astra/.venv/lib/python3.12/site-packages/torch/_native/ops/bmm_outer_product/triton_impl.py", line 27, in _bmm_outer_product_impl
+    return bmm_outer_product(a, b)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspaces/detect-different-lies-141e-zeroshot-codex-gpt-6-astra/.venv/lib/python3.12/site-packages/torch/_native/ops/bmm_outer_product/triton_kernels.py", line 87, in bmm_outer_product
+    _bmm_outer_product_kernel[(B * triton.cdiv(M, BLOCK_M) * triton.cdiv(N, BLOCK_N),)](
+  File "/workspaces/detect-different-lies-141e-zeroshot-codex-gpt-6-astra/.venv/lib/python3.12/site-packages/torch/_native/instrumentation.py", line 208, in wrapper
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/workspaces/detect-different-lies-141e-zeroshot-codex-gpt-6-astra/.venv/lib/python3.12/site-packages/triton/runtime/jit.py", line 374, in <lambda>
+    return lambda *args, **kwargs: self.run(grid=grid, warmup=False, *args, **kwargs)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspaces/detect-different-lies-141e-zeroshot-codex-gpt-6-astra/.venv/lib/python3.12/site-packages/triton/runtime/jit.py", line 731, in run
+    device = driver.active.get_current_device()
+             ^^^^^^^^^^^^^
+  File "/workspaces/detect-different-lies-141e-zeroshot-codex-gpt-6-astra/.venv/lib/python3.12/site-packages/triton/runtime/driver.py", line 39, in active
+    self._active = self.default
+                   ^^^^^^^^^^^^
+  File "/workspaces/detect-different-lies-141e-zeroshot-codex-gpt-6-astra/.venv/lib/python3.12/site-packages/triton/runtime/driver.py", line 33, in default
+    self._default = _create_driver()
+                    ^^^^^^^^^^^^^^^^
+  File "/workspaces/detect-different-lies-141e-zeroshot-codex-gpt-6-astra/.venv/lib/python3.12/site-packages/triton/runtime/driver.py", line 21, in _create_driver
+    return active_drivers[0]()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/workspaces/detect-different-lies-141e-zeroshot-codex-gpt-6-astra/.venv/lib/python3.12/site-packages/triton/backends/nvidia/driver.py", line 342, in __init__
+    self.utils = CudaUtils()  # TODO: make static
+                 ^^^^^^^^^^^
+  File "/workspaces/detect-different-lies-141e-zeroshot-codex-gpt-6-astra/.venv/lib/python3.12/site-packages/triton/backends/nvidia/driver.py", line 101, in __init__
+    mod = compile_module_from_file(
+          ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspaces/detect-different-lies-141e-zeroshot-codex-gpt-6-astra/.venv/lib/python3.12/site-packages/triton/runtime/build.py", line 196, in compile_module_from_file
+    return _compile_so_from_file(src_path, name, library_dirs, include_dirs, libraries, ccflags, load_module=True)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspaces/detect-different-lies-141e-zeroshot-codex-gpt-6-astra/.venv/lib/python3.12/site-packages/triton/runtime/build.py", line 165, in _compile_so_from_file
+    return _compile_so(src=src, src_path=src_path, name=name, library_dirs=library_dirs, include_dirs=include_dirs,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspaces/detect-different-lies-141e-zeroshot-codex-gpt-6-astra/.venv/lib/python3.12/site-packages/triton/runtime/build.py", line 149, in _compile_so
+    so = _build(name, src_path, tmpdir, library_dirs or [], include_dirs or [], libraries or [], ccflags or [],
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspaces/detect-different-lies-141e-zeroshot-codex-gpt-6-astra/.venv/lib/python3.12/site-packages/triton/runtime/build.py", line 66, in _build
+    cc = _find_compiler(language)
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspaces/detect-different-lies-141e-zeroshot-codex-gpt-6-astra/.venv/lib/python3.12/site-packages/triton/runtime/build.py", line 32, in _find_compiler
+    raise RuntimeError(
+RuntimeError: Failed to find C compiler. Please specify via CC environment variable or set triton.knobs.build.impl.

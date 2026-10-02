@@ -1,0 +1,20 @@
+             check condition       probe position   n  n_pos      auc       lo       hi
+    adherence_only    social  compliance   scalar 153     57 0.629934 0.575820 0.688414
+     both_adherent    social instruction   answer 120     54 0.536756 0.432184 0.645447
+     both_adherent    social       error   answer 120     54 0.358866 0.265073 0.455879
+     both_adherent    social    pressure   answer 120     54 0.438833 0.334163 0.550286
+     both_adherent    social       cross   answer 120     54 0.557520 0.446606 0.661172
+     both_adherent    social      within   answer 120     54 0.590067 0.485931 0.694530
+     both_adherent    social   knowledge   answer 120     54 0.680976 0.584536 0.775460
+conflicting_target    social instruction   answer 149     57 0.620519 0.524175 0.705955
+conflicting_target    social       error   answer 149     57 0.344966 0.259092 0.437442
+conflicting_target    social    pressure   answer 149     57 0.561785 0.471150 0.653584
+conflicting_target    social       cross   answer 149     57 0.654844 0.570912 0.743176
+conflicting_target    social      within   answer 149     57 0.653699 0.564312 0.740312
+conflicting_target    social   knowledge   answer 149     57 0.642449 0.550652 0.729034
+  neutral_verified    social instruction   answer 151     55 0.614394 0.519724 0.705821
+  neutral_verified    social       error   answer 151     55 0.325000 0.239642 0.413712
+  neutral_verified    social    pressure   answer 151     55 0.574432 0.485089 0.662095
+  neutral_verified    social       cross   answer 151     55 0.659470 0.568122 0.743703
+  neutral_verified    social      within   answer 151     55 0.673295 0.586384 0.757699
+  neutral_verified    social   knowledge   answer 151     55 0.657197 0.564476 0.744143

@@ -1,0 +1,21 @@
+\begin{table*}[t]
+\centering\small
+\caption{Held-out AUROC at fixed layer 14, with question-bootstrap 95\% intervals. All positives are K errors. Cross-prompt negatives are U neutral errors; same-pressure negatives are U errors under the indicated pressure. Probe names specify their training tasks, not established mechanisms. Social pressure is unseen during pressure-based probe training.}\label{tab:probes}
+\begin{tabular}{llrrrr}\toprule
+& & \multicolumn{2}{c}{Cross-prompt errors} & \multicolumn{2}{c}{Same-pressure errors} \\
+Probe & Position & Score & Social & Score & Social \\\midrule
+Instruction & Answer & 0.994 [0.98, 1.00] & 1.000 [1.00, 1.00] & 0.694 [0.59, 0.80] & 0.621 [0.53, 0.71] \\
+Instruction & Pre-answer & 1.000 [1.00, 1.00] & 1.000 [1.00, 1.00] & 0.731 [0.63, 0.82] & 0.692 [0.60, 0.78] \\
+\addlinespace
+Error & Answer & 0.259 [0.17, 0.37] & 0.262 [0.19, 0.35] & 0.312 [0.21, 0.42] & 0.343 [0.25, 0.44] \\
+Error & Pre-answer & 0.722 [0.62, 0.81] & 0.730 [0.64, 0.82] & 0.242 [0.15, 0.33] & 0.347 [0.26, 0.44] \\
+\addlinespace
+Pressure & Answer & 0.921 [0.87, 0.97] & 0.886 [0.83, 0.94] & 0.649 [0.55, 0.75] & 0.577 [0.48, 0.67] \\
+Pressure & Pre-answer & 0.855 [0.78, 0.92] & 0.914 [0.86, 0.96] & 0.529 [0.42, 0.64] & 0.612 [0.52, 0.71] \\
+\addlinespace
+Cross & Answer & 1.000 [1.00, 1.00] & 1.000 [1.00, 1.00] & 0.733 [0.63, 0.83] & 0.668 [0.58, 0.75] \\
+Cross & Pre-answer & 1.000 [1.00, 1.00] & 1.000 [1.00, 1.00] & 0.666 [0.56, 0.77] & 0.540 [0.44, 0.63] \\
+\addlinespace
+Within & Answer & 0.947 [0.89, 0.99] & 0.878 [0.81, 0.93] & 0.696 [0.60, 0.79] & 0.663 [0.57, 0.75] \\
+Within & Pre-answer & 0.760 [0.66, 0.84] & 0.895 [0.83, 0.95] & 0.658 [0.56, 0.76] & 0.692 [0.60, 0.78] \\
+\bottomrule\end{tabular}\end{table*}

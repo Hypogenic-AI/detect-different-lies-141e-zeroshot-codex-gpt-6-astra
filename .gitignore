@@ -337,3 +337,9 @@ Thumbs.db
 # -----------------------------------------------------------------------------
 # Logs
 # -----------------------------------------------------------------------------
+
+# Local model/data downloads; keep small derived results and raw activation shards.
+data/
+models/
+!logs/*.log
+logs/zeroshot*

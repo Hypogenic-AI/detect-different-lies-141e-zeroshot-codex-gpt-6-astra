@@ -1,0 +1,10 @@
+{
+  "model": "Qwen/Qwen2.5-7B-Instruct",
+  "model_revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+  "dataset": "cais/mmlu",
+  "dataset_revision": "c30699e8356da336a370243923dbaf21066bb9fe",
+  "seed": 20261002,
+  "n": 1600,
+  "dataset_size": 14042,
+  "question_sha256": "ff2db714b341dd6d61e40b8b57714f1acca946d71b23961ce91bae1830f7b4d4"
+}

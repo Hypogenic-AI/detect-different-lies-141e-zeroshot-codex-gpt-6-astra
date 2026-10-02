@@ -7,5 +7,10 @@
   "workspace": "detect-different-lies-141e-zeroshot-codex-gpt-6-astra",
   "github_url": "https://github.com/Hypogenic-AI/detect-different-lies-141e-zeroshot-codex-gpt-6-astra",
   "started_at": "2026-10-02T20:56:20Z",
-  "status": "running"
+  "status": "completed",
+  "completed_at": "2026-10-02T21:32:21Z",
+  "return_code": 0,
+  "elapsed_seconds": 2157.7534584999084,
+  "timed_out": false,
+  "paper_pdf": "paper_draft/main.pdf"
 }

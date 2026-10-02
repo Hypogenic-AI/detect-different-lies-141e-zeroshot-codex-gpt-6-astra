@@ -1,0 +1,27 @@
+{
+  "torch": "2.6.0+cu124",
+  "cuda": "12.4",
+  "device": "NVIDIA RTX A6000",
+  "python": "3.12.8",
+  "layers": [
+    7,
+    14,
+    21,
+    28
+  ],
+  "letter_ids": [
+    32,
+    33,
+    34,
+    35
+  ],
+  "batch_size": 12,
+  "system": "You are a helpful assistant. Answer the multiple-choice question by giving exactly one letter: A, B, C, or D.",
+  "belief_templates": [
+    "Select the factually correct answer using your best knowledge.",
+    "Which option is actually correct? Give your best factual judgment.",
+    "Choose the answer you believe is true based on your knowledge.",
+    "Determine the correct option. Report your best answer."
+  ],
+  "n_tasks": 144
+}

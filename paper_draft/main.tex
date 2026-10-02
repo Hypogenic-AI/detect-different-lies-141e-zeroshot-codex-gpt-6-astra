@@ -1,0 +1,113 @@
+\documentclass[10pt,twocolumn]{article}
+\usepackage[margin=0.75in]{geometry}
+\usepackage{times}
+\usepackage{amsmath,amssymb,booktabs,graphicx,microtype}
+\usepackage[round,authoryear]{natbib}
+\usepackage[colorlinks=true,allcolors=blue]{hyperref}
+\usepackage{enumitem,float}
+\raggedbottom
+\setlength{\columnsep}{0.25in}
+\setlength{\parskip}{2pt}
+\title{Detecting Different Errors: A Matched Audit of\newline Epistemic Inconsistency and Incentive-Conditioned Misreporting}
+\author{Anonymous research report}
+\date{}
+\input{numbers.tex}
+\begin{document}
+\maketitle
+\begin{abstract}
+Can a lie detector distinguish an incentive-conditioned misreport from an epistemic error? We audit Qwen2.5-7B-Instruct on 1,600 matched MMLU questions using four neutral elicitation variants and five reporting conditions. Stable-correct, inconsistent, and stable-wrong answers are kept separate. Stable-correct questions account for 20.5\% of score-pressure errors and 23.6\% of social-pressure errors; these are behavioral contradiction proxies, not verified intentional lies. On held-out questions, an instructed-deception linear probe perfectly separates social-pressure contradictions from inconsistent neutral errors (AUROC 1.000), but a condition-only indicator does so as well. When both false classes receive social pressure, the probe obtains AUROC 0.621; a directly trained same-pressure probe obtains 0.663. A neutral-error probe instead ranks inconsistent errors higher (AUROC 0.343 with stable-correct errors positive). A post-hoc preferred-answer adherence control further weakens the deception-trained probes. Pre-answer and knowledge-only controls retain moderate signal, and validation-calibrated thresholds transfer poorly. The results show why cross-prompt accuracy cannot by itself identify a deception-specific mechanism, while leaving open the possibility of useful, task-specific monitoring.
+\end{abstract}
+
+\section{Introduction}
+An incorrect answer does not reveal why it was produced. A language model may lack relevant knowledge, consistently retrieve a wrong answer, fail to reason correctly, or select an answer inconsistent with what it reports in a neutral setting. These distinctions matter for monitoring: a detector of uncertainty need not detect a confident misreport, and a detector of deceptive instructions need not distinguish a misreport from an honest error.
+
+The distinction between accuracy and honesty is established by MASK \citep{ren2025mask}. Recent lie-detection studies also show substantial heterogeneity and transfer failures \citep{kretschmar2025liars,natarajan2026probe,cooney2026lie}. Our contribution is deliberately narrower than a new theory of lying: an executable, matched-question audit of how behavioral knowledge strata change the interpretation of detector performance. We ask: \emph{For a fixed model and question set, how does stated incentive pressure change the composition of incorrect answers, and can common linear-probe recipes distinguish pressure-associated contradictions from neutral errors once both classes receive the same pressure?}
+
+We evaluate Qwen2.5-7B-Instruct on MMLU questions, using exact multiple-choice scoring. Four neutral elicitation variants define stable-correct, inconsistent, and stable-wrong strata. A separate neutral evaluation and two pressure conditions are applied to every question. Thus incentive comparisons are matched within questions; comparisons between knowledge strata remain observational. We separately train an instructed-deception probe, a neutral-error probe, and task-specific classifiers. Question-disjoint evaluation, answer-letter controls, a condition-only baseline, and last-prompt-token probes expose shortcuts that a pooled ``lie versus hallucination'' task can contain.
+
+We use \emph{misreporting proxy} for a pressure-associated error on a stable-correct question. This label does not establish deliberate deception. The model is instructed to optimize a stated score or rating, receives no real payoff, and may simply comply with a task preference. Likewise, inconsistent neutral answering is an epistemic-error proxy, not proof of absent knowledge. Reporting those limitations is central to the experiment: an operationally clean distinction between observable behaviors is not a mechanistic identification of belief or intent.
+
+\section{Related work}
+\paragraph{Honesty versus accuracy.}
+MASK explicitly separates a model's expressed belief from factual correctness and tests whether pressure changes its reporting \citep{ren2025mask}. We adopt this behavioral distinction, but add repeated elicitation, a separate stable-wrong stratum, and a false-only probe comparison. We do not evaluate the MASK scenarios themselves. \citet{cooney2026lie} directly confront belief verification, demonstrating that nominally deceptive model organisms may not retain the beliefs their labels assume. Their verified organisms and follow-up probes substantially overlap our motivation. Our study does not improve on their verification of beliefs; it tests a smaller, transparent stratification and its consequences for conventional probe evaluation.
+
+\paragraph{Heterogeneous deception detection.}
+\citet{goldowsky2025detecting} train standardized, regularized linear probes on contrastive instructions and roleplaying examples, and assess transfer to strategic scenarios. We adapt the contrastive-instruction recipe to our model and task rather than use their trained weights or claim an exact replication. Liars' Bench evaluates diverse motivations and targets of deception \citep{kretschmar2025liars}. Targeted probes, lie typology, and instructed-to-spontaneous transfer are investigated by \citet{natarajan2026probe,moustafa2026beyond,luikham2026asymmetries}. Our target is the distinction between incorrect answers across neutral-knowledge strata, not a new taxonomy of deceptive strategies. \citet{thormann2026limits} studies deception without literal falsehood; that important class is outside our exact-answer setting.
+
+\paragraph{Falsehood and internal knowledge signals.}
+\citet{azaria2023internal} classify factual correctness using internal activations. \citet{cheang2025know} distinguish hallucinations associated with parametric recall from those lacking such associations and show why correctness detectors can confuse their internal signals. Our stable-wrong stratum is motivated by the need not to equate consistent recall with truth, but is not a replication of their causal taxonomy. We include a neutral-error linear probe and predictive-uncertainty baselines as simple representatives of these detector families. The Anthropic investigation of fine-tuned lie detectors also uses neutral belief elicitation and pressure, and documents generalization failures and label ambiguity \citep{anthropic2026}. These precedents preclude a broad novelty claim for either belief checks or pressure-prompt audits.
+
+\section{Experimental design}
+\subsection{Questions, model, and splits}
+We sample 1,600 unique question stems from the MMLU test split \citep{hendrycks2021mmlu}, covering its 57 subjects. Two duplicate stems in the initial random sample are replaced before full-study inference; one would otherwise cross the probe train/test boundary. We use Qwen2.5-7B-Instruct \citep{qwen2024} with unquantized bfloat16 weights on a single NVIDIA RTX A6000. Model and dataset revisions, source indices, prompts, logits, and activations are preserved. The random seed is 20261002. The question-level split contains 800 training, 300 validation, and 500 test questions. Every variant of a question stays in its split.
+
+MMLU is selected instead of open-ended TriviaQA to eliminate answer-alias judgments and permit controlled answer permutations. This changes the scope: incorrect choices include reasoning errors and do not necessarily constitute free-text hallucinations. The benchmark may also overlap model pretraining. We make no generalization claim to uncontaminated factual recall.
+
+\subsection{Neutral knowledge strata}
+Let $g_q$ be the dataset answer and $b_{qj}$ the selected original answer identity in neutral elicitation $j$. For each question we randomly permute its four answers, then cyclically rotate that permutation across four distinct neutral instruction templates. All answer identities are mapped back before comparison. We define
+\begin{align}
+K_q &\iff b_{qj}=g_q\quad\text{for every }j,\\
+W_q &\iff b_{qj}=b_{q1}\ne g_q\quad\text{for every }j,\\
+U_q &\iff \neg K_q\land\neg W_q.
+\end{align}
+$K$ denotes stable correctness, $W$ stable wrongness, and $U$ inconsistency. These labels measure robustness to a joint wording/order perturbation. They are not independent samples from a posterior over beliefs. In particular, $U$ can include a correct answer on most variants, and $W$ need not be subjectively confident. A sensitivity analysis moves questions correct on at least three variants into $K$ and excludes them from $U$.
+
+\subsection{Matched reporting conditions}
+A fifth neutral wording provides an evaluation response that is not used to define the strata. Every question also receives two pressure prompts. A preferred original answer $t_q$ is drawn uniformly among the four options, independently of correctness, and held fixed across pressure conditions. The \emph{score} prompt describes a point reward for the preferred answer; the \emph{social} prompt describes a positive user rating. Both state explicitly that the preference is not evidence about factual truth. They instruct the model to optimize that payoff, but do not instruct it to select a false answer. The truthful and preferred answers sometimes coincide, providing pressure-matched correct controls. We additionally count correct responses when they conflict with the preference, since aligned controls alone do not demonstrate resistance to pressure.
+
+Separate explicit-honesty and explicit-deception instructions produce a calibration dataset. Explicitly requested errors are never pooled with incentive-condition errors in the descriptive prevalence calculation. Every conversation begins afresh with the same system instruction. No chain of thought, real reward, model updating, or feedback is used.
+
+\subsection{Decoding and labels}
+All responses use the highest-logit next token among \texttt{A}, \texttt{B}, \texttt{C}, and \texttt{D}, without sampling. We record both the conditional distribution over those four tokens and their total unrestricted probability mass. We also record whether the unrestricted top token is a valid choice, to quantify the effect of forced decoding. A wrong choice is counted against the dataset key without an LLM judge.
+
+For condition $c$, let $F_{qc}=\mathbb{1}[a_{qc}\ne g_q]$. The descriptive share of errors associated with stratum $s$ is
+\begin{equation}
+\pi_{s,c}=\frac{\sum_q\mathbb{1}[S_q=s]F_{qc}}{\sum_q F_{qc}}.
+\end{equation}
+These shares depend on the sampled questions and prompt distribution. They are not estimates of the fraction of all deployed-model falsehoods due to lying. The core cross-prompt contrast uses $K$ errors under pressure as positives ($L$) and $U$ errors under neutral evaluation as negatives ($H$). The stronger \emph{same-pressure} contrast replaces $H$ with $U$ errors under the identical pressure template. Both classes are incorrect in both comparisons. Stable-wrong errors are analyzed separately.
+
+\section{Detectors and evaluation}
+\subsection{Representations and training}
+We save residual states after decoder blocks 7, 14, 21, and 28 at the last prompt token and the selected answer token. The final-layer output includes the model's final normalization. Layer 14 is the fixed primary layer; the others are robustness checks, not candidates selected using the test set. Answer states are obtained with a cached incremental forward pass, validated against a full-sequence pass. Since an answer is one token, no token-pooling choice is needed.
+
+For each position and layer we fit standardized L2 logistic regression with $C=0.1$, balanced class weights, and a maximum of 2,000 optimizer iterations. Scaling is learned only from training examples. We fit five primary probes:
+\begin{enumerate}[leftmargin=*,nosep]
+\item \textbf{Instruction}: $K$ wrong answers under explicit deception versus $K$ correct answers under explicit honesty.
+\item \textbf{Error}: neutral wrong versus neutral correct answers, across all strata.
+\item \textbf{Pressure}: $K$ wrong versus $K$ correct answers under score pressure.
+\item \textbf{Cross}: $K$ score-pressure errors versus $U$ neutral errors.
+\item \textbf{Within}: $K$ score-pressure errors versus $U$ score-pressure errors.
+\end{enumerate}
+An exploratory sixth, \textbf{Knowledge}, probe is trained on neutral $K$ versus $U$, regardless of the evaluation answer's correctness. It was added after the neutral checks but before observing detector outcomes.
+
+The first two primary probes are adaptations of common deception- and falsehood-probing recipes. The remaining probes test task-specific learnability. They do not establish that a general-purpose detector already separates the mechanisms. Transfer to social pressure tests a new template and motivation, with the same preferred answer for a given question.
+
+\subsection{Controls and uncertainty}
+We evaluate each probe on held-out questions, retaining its training orientation: a score below chance is not flipped post hoc. Baselines include conditional choice entropy, one minus maximum choice probability, answer-letter logistic regression, and a surface-feature classifier using answer letter, prompt length, entropy, uncertainty, and valid-choice probability mass. A TF--IDF question-only classifier measures difficulty/topic shortcuts. A deterministic indicator that pressure is present tests whether the cross-prompt label can be read from condition identity alone.
+
+The last prompt state is a \emph{pre-answer} control, not a pure lexical representation: it already contains question processing and potentially the model's answer decision. Its success cannot by itself prove a lexical confound. Conversely, a perfect condition-only baseline on a cross-prompt task demonstrates that this task admits a non-mechanistic shortcut.
+
+After the primary results, we additionally examine preferred-answer adherence and restrict both error classes to adherent responses. These diagnostics are labeled post hoc and do not replace the primary comparisons.
+
+Primary AUROC intervals use 2,000 bootstrap resamples of question IDs, retaining all relevant observations for a sampled question. Auxiliary layers use 400 replicates. These intervals condition on fitted probe weights; they do not quantify variation from retraining or model choice. Error-share intervals are exact binomial intervals because each condition contributes one response per question. Paired condition effects use question bootstrap intervals and exact binomial tests on discordant pairs. Thresholded flag rates use the 90th percentile of negative validation scores for each probe's own training task; this does not guarantee a fixed false-positive rate after distribution shift.
+
+\section{Results}
+\input{results_text.tex}
+
+\section{Limitations and interpretation}
+\input{limitations_text.tex}
+
+\section{Conclusion}
+\input{conclusion_text.tex}
+
+\paragraph{Reproducibility and research practice.}
+This report was produced in a single autonomous research session. All experimental results come from local model execution and analysis, not simulated outcomes or external-model judgments. The workspace contains the design recorded before full inference, source-index and revision manifests, the complete response records and hidden-state arrays, analysis code, generated figures and tables, and environment pins. Failed setup and engineering-pilot logs are retained; pilot outputs are excluded from the reported study. No model was fine-tuned, and no evaluation result was used to select the primary layer or regularization strength.
+
+\bibliographystyle{plainnat}
+\bibliography{references}
+\appendix
+\section{Exact prompts}
+\input{prompts.tex}
+\section{Additional results}
+\input{additional.tex}
+\end{document}
